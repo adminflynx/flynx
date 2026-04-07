@@ -18,8 +18,7 @@ const statusColors = {
 const categoryColors = {
   'Construccion': 'bg-purple-500',
   'Consultoria': 'bg-blue-500',
-  'Infraestructura Social': 'bg-teal-500',
-  'I+D': 'bg-pink-500',
+  'I+D': 'bg-emerald-500',
 };
 </script>
 
@@ -81,13 +80,28 @@ const categoryColors = {
                 {{ project.description }}
               </p>
 
-              <!-- Footer -->
-              <div class="flex items-center justify-between text-xs text-gray-400">
-                <div class="flex items-center gap-1">
-                  <mdicon name="map-marker-outline" size="14" />
-                  <span>{{ project.location }}</span>
+              <!-- Role -->
+              <div v-if="project.role" class="flex items-center gap-1 text-xs text-purple-600 dark:text-purple-400 mb-3">
+                <mdicon name="briefcase-outline" size="14" />
+                <span>{{ project.role }}</span>
+              </div>
+
+              <!-- Client & Partner -->
+              <div class="space-y-1 mb-3">
+                <div v-if="project.client" class="flex items-center gap-1 text-xs text-gray-400">
+                  <mdicon name="domain" size="14" />
+                  <span>{{ project.client }}</span>
                 </div>
-                <span>{{ project.year }}</span>
+                <div v-if="project.partner" class="flex items-center gap-1 text-xs text-gray-400">
+                  <mdicon name="handshake-outline" size="14" />
+                  <span>{{ project.partner }}</span>
+                </div>
+              </div>
+
+              <!-- Location -->
+              <div class="flex items-center gap-1 text-xs text-gray-400">
+                <mdicon name="map-marker-outline" size="14" />
+                <span>{{ project.location }}</span>
               </div>
             </div>
           </div>

@@ -7,10 +7,10 @@ import { services } from '../data/services.js';
 const statsRef = ref(null);
 const statsVisible = ref(false);
 const counters = ref([
-  { value: 0, target: 12, label: 'Proyectos', suffix: '+' },
+  { value: 0, target: 8, label: 'Proyectos', suffix: '+' },
   { value: 0, target: 200, label: 'Profesionales Formados', suffix: '+' },
-  { value: 0, target: 5, label: 'Alianzas Academicas', suffix: '' },
-  { value: 0, target: 8, label: 'Comunidades Impactadas', suffix: '+' },
+  { value: 0, target: 3, label: 'Alianzas Academicas', suffix: '' },
+  { value: 0, target: 5, label: 'Comunidades Impactadas', suffix: '+' },
 ]);
 
 onMounted(() => {
@@ -48,7 +48,7 @@ const bimTools = [
 </script>
 
 <template>
-  <div class="min-h-screen">
+  <div class="min-h-screen overflow-x-hidden">
 
     <!-- HERO -->
     <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -310,6 +310,14 @@ const bimTools = [
             class="px-8 py-4 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-white font-semibold rounded-full hover:bg-gray-100 dark:hover:bg-slate-800 transition-all duration-300 hover:scale-105">
             Ver Proyectos
           </router-link>
+        </div>
+        <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center text-sm">
+          <a href="mailto:admin@flynx.co" class="inline-flex items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+            <mdicon name="email-outline" size="16" /> admin@flynx.co
+          </a>
+          <!-- <a href="mailto:wilmercampagna@gmail.com" class="inline-flex items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+            <mdicon name="email-outline" size="16" /> wilmercampagna@gmail.com
+          </a> -->
         </div>
       </div>
     </section>

@@ -56,7 +56,7 @@ const audiences = [
   { icon: 'hard-hat', text: 'Equipos de Construcción visualizando el progreso del proyecto en contexto' },
 ];
 
-const downloadUrl = 'https://github.com/adminflynx/TerritorialTwin/releases';
+const downloadUrl = 'https://github.com/wilmercampagna/flynx-releases/releases/tag/territorial-twin-v0.1.0';
 </script>
 
 <template>
@@ -94,7 +94,7 @@ const downloadUrl = 'https://github.com/adminflynx/TerritorialTwin/releases';
           </a>
         </div>
 
-        <p class="mt-6 text-sm text-gray-500">Windows 10/11 (64-bit) &middot; ~300 MB</p>
+        <p class="mt-6 text-sm text-gray-500">Windows 10/11 (64-bit) &middot; ~147 MB</p>
       </div>
     </section>
 
@@ -161,7 +161,7 @@ const downloadUrl = 'https://github.com/adminflynx/TerritorialTwin/releases';
         <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
           Descarga TerritorialTwin Desktop
         </h2>
-        <p class="text-gray-300 mb-4">Versión 0.1.0 &middot; Windows 10/11 (64-bit) &middot; ~300 MB</p>
+        <p class="text-gray-300 mb-4">Versión 0.1.0 &middot; Windows 10/11 (64-bit) &middot; ~147 MB</p>
         <p class="text-gray-400 text-sm mb-8 max-w-xl mx-auto">
           Desarrollado por Wilmer Campagna en Fundación Lynx (FLynx).
         </p>

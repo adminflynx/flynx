@@ -131,11 +131,18 @@ const values = [
         <p class="text-gray-300 mb-8 max-w-2xl mx-auto">
           Buscamos aliados estratégicos en la academia, la industria y el sector público para multiplicar nuestro impacto.
         </p>
-        <router-link to="/"
-          class="inline-flex items-center gap-2 px-8 py-4 bg-white text-purple-900 font-semibold rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:scale-105">
-          Contáctanos
-          <mdicon name="arrow-right" size="18" />
-        </router-link>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+          <a href="mailto:admin@flynx.co"
+            class="inline-flex items-center gap-2 px-8 py-4 bg-white text-purple-900 font-semibold rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:scale-105">
+            <mdicon name="email-outline" size="18" />
+            admin@flynx.co
+          </a>
+          <a href="mailto:wilmercampagna@gmail.com"
+            class="inline-flex items-center gap-2 px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-full hover:bg-white/10 transition-all duration-300 hover:scale-105">
+            <mdicon name="email-outline" size="18" />
+            wilmercampagna@gmail.com
+          </a>
+        </div>
       </div>
     </section>
 

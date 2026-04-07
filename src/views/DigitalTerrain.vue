@@ -66,7 +66,7 @@ const techStack = [
   { label: 'Formatos', value: 'las-rs, ply-rs, e57, web-ifc, dxf' },
 ];
 
-const downloadUrl = 'https://github.com/adminflynx/DigitalTerrain/releases';
+const downloadUrl = 'https://github.com/wilmercampagna/flynx-releases/releases/tag/v1.0.0';
 </script>
 
 <template>
@@ -104,7 +104,7 @@ const downloadUrl = 'https://github.com/adminflynx/DigitalTerrain/releases';
           </a>
         </div>
 
-        <p class="mt-6 text-sm text-gray-500">Windows 10/11 (64-bit) &middot; GPU WebGPU/Vulkan requerida &middot; ~500 MB</p>
+        <p class="mt-6 text-sm text-gray-500">Windows 10/11 (64-bit) &middot; GPU WebGPU/Vulkan requerida &middot; ~94 MB</p>
       </div>
     </section>
 
