@@ -137,11 +137,11 @@ const values = [
             <mdicon name="email-outline" size="18" />
             admin@flynx.co
           </a>
-          <a href="mailto:wilmercampagna@gmail.com"
+          <!-- <a href="mailto:wilmercampagna@gmail.com"
             class="inline-flex items-center gap-2 px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-full hover:bg-white/10 transition-all duration-300 hover:scale-105">
             <mdicon name="email-outline" size="18" />
             wilmercampagna@gmail.com
-          </a>
+          </a> -->
         </div>
       </div>
     </section>
