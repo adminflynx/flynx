@@ -1,0 +1,58 @@
+export const projects = [
+  {
+    id: 1,
+    title: "Vivienda Sostenible Rural",
+    category: "Construccion",
+    description: "Diseno y construccion de viviendas con materiales sostenibles en zonas rurales, mejorando la calidad de vida de familias vulnerables.",
+    location: "Boyaca, Colombia",
+    status: "Completado",
+    year: 2024,
+  },
+  {
+    id: 2,
+    title: "Plataforma BIM Viewer",
+    category: "I+D",
+    description: "Desarrollo de visor IFC web con soporte AR/VR para visualizacion de modelos BIM en tiempo real.",
+    location: "Colombia",
+    status: "En Curso",
+    year: 2025,
+  },
+  {
+    id: 3,
+    title: "Centro Comunitario La Esperanza",
+    category: "Infraestructura Social",
+    description: "Construccion de centro comunitario multiproprosito para comunidades en proceso de reconciliacion.",
+    location: "Cauca, Colombia",
+    status: "En Curso",
+    year: 2025,
+  },
+  {
+    id: 4,
+    title: "Consultoria BIM Institucional",
+    category: "Consultoria",
+    description: "Implementacion de metodologia BIM en entidades publicas para optimizar la gestion de proyectos de infraestructura.",
+    location: "Bogota, Colombia",
+    status: "Completado",
+    year: 2024,
+  },
+  {
+    id: 5,
+    title: "Programa de Formacion AECO",
+    category: "Consultoria",
+    description: "Capacitacion de profesionales en tecnologias BIM, construccion sostenible y gestion de proyectos.",
+    location: "Nacional",
+    status: "En Curso",
+    year: 2025,
+  },
+  {
+    id: 6,
+    title: "Puente Peatonal Comunitario",
+    category: "Infraestructura Social",
+    description: "Diseno y construccion de puente peatonal conectando comunidades aisladas con servicios basicos.",
+    location: "Narino, Colombia",
+    status: "Planificacion",
+    year: 2026,
+  },
+];
+
+export const categories = ["Todos", "Construccion", "Consultoria", "Infraestructura Social", "I+D"];

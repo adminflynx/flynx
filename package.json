@@ -1,0 +1,36 @@
+{
+  "name": "flynx",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@mdi/js": "^7.4.47",
+    "@thatopen/components": "^3.3.3",
+    "@thatopen/components-front": "^3.3.3",
+    "@thatopen/fragments": "3.3.0",
+    "@thatopen/ui": "3.3.0",
+    "@thatopen/ui-obc": "^3.3.3",
+    "@vueuse/core": "^12.8.2",
+    "camera-controls": "^3.1.2",
+    "mdi-vue": "^3.0.13",
+    "pinia": "^3.0.2",
+    "three": "^0.175.0",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.1",
+    "web-ifc": "^0.0.74"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.3",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
+    "terser": "^5.39.0",
+    "vite": "^6.3.2",
+    "vite-plugin-pwa": "^1.2.0"
+  },
+  "type": "module"
+}

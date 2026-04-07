@@ -1,0 +1,26 @@
+@tailwind base;
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+  
+/* Track */
+::-webkit-scrollbar-track {
+    background: #1e293b;
+}
+  
+/* Handle */
+::-webkit-scrollbar-thumb {
+    /* background: #888; */
+    border-radius: 5px;
+    background: linear-gradient(180deg, rgb(30 27 75) 0%, rgb(129 140 248) 100%);
+}
+  
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgb(7 89 133) 0%, rgb(34 211 238) 100%);
+}
+
+@tailwind components;
+@tailwind utilities;
