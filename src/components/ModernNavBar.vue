@@ -67,6 +67,10 @@ const handleLogout = () => {
 							class="flex items-center gap-2 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700">
 							<mdicon name="view-dashboard-outline" size="18" /> Dashboard
 						</router-link>
+						<router-link to="/admin/products" @click="showUserMenu = false"
+							class="flex items-center gap-2 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700">
+							<mdicon name="package-variant-closed" size="18" /> Productos
+						</router-link>
 						<router-link to="/admin/licenses" @click="showUserMenu = false"
 							class="flex items-center gap-2 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700">
 							<mdicon name="key-variant" size="18" /> Licencias

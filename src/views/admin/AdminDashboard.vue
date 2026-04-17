@@ -44,11 +44,18 @@ onMounted(async () => {
           <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Dashboard</h1>
           <p class="text-gray-500 dark:text-gray-400 text-sm">License Management Overview</p>
         </div>
-        <router-link to="/admin/licenses"
-          class="inline-flex items-center gap-2 px-5 py-2 bg-purple-600 text-white rounded-xl hover:bg-purple-500 transition-all text-sm font-medium">
-          <mdicon name="format-list-bulleted" size="18" />
-          Ver Licencias
-        </router-link>
+        <div class="flex gap-2">
+          <router-link to="/admin/products"
+            class="inline-flex items-center gap-2 px-5 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 transition-all text-sm font-medium">
+            <mdicon name="package-variant-closed" size="18" />
+            Productos
+          </router-link>
+          <router-link to="/admin/licenses"
+            class="inline-flex items-center gap-2 px-5 py-2 bg-purple-600 text-white rounded-xl hover:bg-purple-500 transition-all text-sm font-medium">
+            <mdicon name="format-list-bulleted" size="18" />
+            Licencias
+          </router-link>
+        </div>
       </div>
 
       <div v-if="error" class="p-4 rounded-xl bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 mb-6">
