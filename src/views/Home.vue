@@ -170,52 +170,52 @@ const bimTools = [
     </section>
 
     <!-- DIGITAL TERRAIN DESTACADO -->
-    <section class="py-20 px-6 bg-gradient-to-br from-slate-900 via-amber-950 to-orange-950">
+    <section class="py-20 px-6 bg-gradient-to-br from-slate-900 via-blue-950 to-cyan-950">
       <div class="max-w-6xl mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div class="order-2 lg:order-1 grid grid-cols-2 gap-4">
             <div class="p-4 rounded-xl bg-white/5 border border-white/10">
-              <mdicon name="chart-scatter-plot" class="text-amber-400 mb-2" size="28" />
+              <mdicon name="chart-scatter-plot" class="text-cyan-400 mb-2" size="28" />
               <h4 class="text-white font-medium text-sm mb-1">250M+ Puntos</h4>
               <p class="text-gray-400 text-xs">Motor LOD con octree</p>
             </div>
             <div class="p-4 rounded-xl bg-white/5 border border-white/10">
-              <mdicon name="gpu" class="text-orange-400 mb-2" size="28" />
-              <h4 class="text-white font-medium text-sm mb-1">GPU WebGPU</h4>
-              <p class="text-gray-400 text-xs">Clasificación en tu GPU local</p>
+              <mdicon name="gpu" class="text-blue-400 mb-2" size="28" />
+              <h4 class="text-white font-medium text-sm mb-1">GPU nativa</h4>
+              <p class="text-gray-400 text-xs">Vulkan / DirectX 12</p>
             </div>
             <div class="p-4 rounded-xl bg-white/5 border border-white/10">
-              <mdicon name="cube-scan" class="text-amber-400 mb-2" size="28" />
+              <mdicon name="cube-scan" class="text-cyan-400 mb-2" size="28" />
               <h4 class="text-white font-medium text-sm mb-1">BIM + LiDAR</h4>
               <p class="text-gray-400 text-xs">IFC sobre nubes de puntos</p>
             </div>
             <div class="p-4 rounded-xl bg-white/5 border border-white/10">
-              <mdicon name="chart-line-variant" class="text-orange-400 mb-2" size="28" />
-              <h4 class="text-white font-medium text-sm mb-1">Secciones Transversales</h4>
-              <p class="text-gray-400 text-xs">BIM + nube sincronizados</p>
+              <mdicon name="chart-line-variant" class="text-blue-400 mb-2" size="28" />
+              <h4 class="text-white font-medium text-sm mb-1">Civil 3D ready</h4>
+              <p class="text-gray-400 text-xs">LandXML + breaklines</p>
             </div>
           </div>
           <div class="order-1 lg:order-2">
-            <div class="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/20 text-amber-400 rounded-full text-xs font-medium mb-6 border border-amber-500/30">
-              <mdicon name="gpu" size="14" />
-              GPU-Accelerated &middot; v0.1.0
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-full text-xs font-medium mb-6 border border-cyan-500/30">
+              <mdicon name="rocket-launch" size="14" />
+              Version 2.0 &middot; Rust nativo
             </div>
             <h2 class="text-3xl md:text-5xl font-bold text-white mb-4 leading-tight">
-              Digital <span class="text-amber-400">Terrain</span>
+              Digital <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-400">Terrain</span>
             </h2>
             <p class="text-lg text-gray-300 mb-6">
-              Procesamiento LiDAR y BIM de escritorio con aceleración GPU. Clasificación automática de nubes de puntos masivas vía WebGPU.
+              Aplicacion nativa para procesamiento LiDAR y BIM. GPU + Rust + workflow completo a Civil 3D.
             </p>
             <div class="flex flex-wrap gap-3 mb-8">
-              <span class="px-3 py-1 bg-white/10 text-gray-300 rounded-full text-xs">Rust + Tauri v2</span>
-              <span class="px-3 py-1 bg-white/10 text-gray-300 rounded-full text-xs">WebGPU / WGSL</span>
+              <span class="px-3 py-1 bg-white/10 text-gray-300 rounded-full text-xs">Rust + wgpu</span>
+              <span class="px-3 py-1 bg-white/10 text-gray-300 rounded-full text-xs">CSF + HAG GPU</span>
               <span class="px-3 py-1 bg-white/10 text-gray-300 rounded-full text-xs">LAS / LAZ / E57</span>
-              <span class="px-3 py-1 bg-white/10 text-gray-300 rounded-full text-xs">IFC + Fragments</span>
-              <span class="px-3 py-1 bg-white/10 text-gray-300 rounded-full text-xs">DXF Export</span>
+              <span class="px-3 py-1 bg-white/10 text-gray-300 rounded-full text-xs">LandXML + DXF</span>
+              <span class="px-3 py-1 bg-white/10 text-gray-300 rounded-full text-xs">Civil 3D ready</span>
             </div>
             <div class="flex flex-col sm:flex-row gap-3">
               <router-link to="/digital-terrain"
-                class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-600 to-orange-600 text-white font-semibold rounded-full hover:from-amber-500 hover:to-orange-500 transition-all duration-300 shadow-lg hover:scale-105">
+                class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-full hover:from-blue-500 hover:to-cyan-500 transition-all duration-300 shadow-lg hover:scale-105">
                 <mdicon name="download" size="18" />
                 Descargar
               </router-link>

@@ -20,6 +20,7 @@ const store = useStore();
 const auth = useAuthStore();
 const openIfcData = store.changeShowIfcData;
 let currentPath = computed(() => router.currentRoute.value.path);
+const isViewerRoute = computed(() => ['/ifcAR', '/ifcVR', '/ifcGame'].includes(currentPath.value));
 
 const handleLogout = () => {
 	auth.logout();
@@ -46,7 +47,7 @@ const handleLogout = () => {
 
 			<!-- SPACER -->
 			<div class="grow h-full flex items-center justify-center"></div>
-			<div class="flex-none h-full text-center flex items-center justify-center relative">
+			<div v-if="!isViewerRoute" class="flex-none h-full text-center flex items-center justify-center relative">
 				<button @click="showUserMenu = !showUserMenu" class="flex space-x-3 items-center px-3 hover:opacity-80 transition-opacity">
 					<div class="flex-none flex justify-center">
 						<div class="w-8 h-8 flex">

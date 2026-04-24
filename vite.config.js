@@ -1,11 +1,15 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
+import basicSsl from '@vitejs/plugin-basic-ssl'
+
+const useHttps = process.env.HTTPS === 'true'
 
 export default defineConfig({
   base: "/",
   plugins: [
     vue(),
+    ...(useHttps ? [basicSsl()] : []),
     VitePWA({
       registerType: "autoUpdate",
       workbox: {
