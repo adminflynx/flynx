@@ -250,24 +250,13 @@ const onFabAction = (id) => {
 
 // ── AR session management ──
 
-// Force three.js to use the legacy XRWebGLLayer path instead of XRWebGLBinding.
-// XRWebGLBinding fails with "parameter 1 is not of type 'XRSession'" when:
-// - The Immersive Web Emulator wraps XRSession in a non-native object
-// - Some Chrome versions auto-include 'layers' in enabledFeatures
-// By stripping 'layers' from enabledFeatures, three.js falls back to the
-// classic baseLayer path which works on all WebXR implementations.
-const stripLayersFeature = (session) => {
-  if (!session.enabledFeatures || !session.enabledFeatures.includes('layers')) return;
-  try {
-    Object.defineProperty(session, 'enabledFeatures', {
-      value: session.enabledFeatures.filter((f) => f !== 'layers'),
-      writable: false,
-      enumerable: true,
-      configurable: true,
-    });
-  } catch (e) {
-    console.warn('Could not patch enabledFeatures:', e);
-  }
+// Detect if Immersive Web Emulator is intercepting WebXR.
+// The polyfill creates non-native XRSession objects that fail strict Web IDL
+// type checks in XRWebGLBinding constructor. Source: three.js issue #31432.
+const isEmulatorActive = () => {
+  return typeof navigator !== 'undefined' &&
+    navigator.xr &&
+    navigator.xr.constructor?.name?.includes('Polyfill');
 };
 
 const startARSession = async () => {
@@ -275,6 +264,16 @@ const startARSession = async () => {
     showToast('AR no soportado en este dispositivo', 'error');
     return;
   }
+
+  // Workaround for three.js r173+ + Immersive Web Emulator / experimental Chrome flags:
+  // Hide XRWebGLBinding so three.js's WebXRManager skips the layers path and uses
+  // the classic XRWebGLLayer baseLayer path. Restore after setSession completes.
+  // See: https://github.com/mrdoob/three.js/issues/31432
+  const savedBinding = window.XRWebGLBinding;
+  const restoreBinding = () => {
+    if (savedBinding) window.XRWebGLBinding = savedBinding;
+  };
+
   try {
     // Ensure the WebGL context is XR-compatible right before requesting session
     const gl = renderer.getContext();
@@ -289,9 +288,6 @@ const startARSession = async () => {
       domOverlay: { root: document.body },
     });
 
-    // Workaround: force baseLayer path
-    stripLayersFeature(session);
-
     session.addEventListener('end', () => {
       currentARSession = null;
       isInXR.value = false;
@@ -300,15 +296,27 @@ const startARSession = async () => {
       if (arButtonEl) arButtonEl.textContent = 'INICIAR AR';
     });
 
-    await renderer.xr.setSession(session);
+    // Hide XRWebGLBinding from three.js so it uses the baseLayer path
+    try { delete window.XRWebGLBinding; } catch (e) { window.XRWebGLBinding = undefined; }
+
+    try {
+      await renderer.xr.setSession(session);
+    } finally {
+      restoreBinding();
+    }
+
     currentARSession = session;
     isInXR.value = true;
     if (loadedModels.value.length) status.value = 'searching';
     if (arButtonEl) arButtonEl.textContent = 'SALIR AR';
     showToast('Apunta a una superficie y toca para colocar', 'info');
   } catch (err) {
+    restoreBinding();
     console.error('AR session error:', err);
-    showToast(`Error AR: ${err.message}`, 'error');
+    const hint = isEmulatorActive()
+      ? ' (Immersive Web Emulator detectado — desactivalo para usar AR nativo)'
+      : '';
+    showToast(`Error AR: ${err.message}${hint}`, 'error');
   }
 };
 
@@ -365,6 +373,7 @@ onMounted(async () => {
   });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setClearColor(0x000000, 0); // transparent so AR camera passthrough shows
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -374,6 +383,7 @@ onMounted(async () => {
   renderer.xr.setReferenceSpaceType('local');
 
   scene = new THREE.Scene();
+  scene.background = null; // transparent for AR
   camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 1000);
   camera.position.set(5, 1, 5);
   camera.lookAt(0, 0, 0);
@@ -433,12 +443,25 @@ onMounted(async () => {
   anchors = createARAnchors({ renderer });
 
   const bgContainer = document.getElementById('bgContainer');
+  let prevBodyBg = '';
+  let prevHtmlBg = '';
   renderer.xr.addEventListener('sessionstart', () => {
     bgContainer?.classList.add('bg-transparent');
     bgContainer?.classList.remove(
       'bg-gradient-to-t', 'from-blue-100', 'via-blue-100', 'to-blue-200',
       'dark:from-slate-900', 'dark:via-slate-600', 'dark:to-slate-900'
     );
+    // Make sure body/html backgrounds don't block the camera feed
+    prevBodyBg = document.body.style.background;
+    prevHtmlBg = document.documentElement.style.background;
+    document.body.style.background = 'transparent';
+    document.documentElement.style.background = 'transparent';
+    // Force renderer to use transparent clear during XR
+    renderer.setClearColor(0x000000, 0);
+  });
+  renderer.xr.addEventListener('sessionend', () => {
+    document.body.style.background = prevBodyBg;
+    document.documentElement.style.background = prevHtmlBg;
   });
 
   // Resize handler
@@ -484,8 +507,9 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="relative w-full h-screen overflow-hidden">
-    <!-- 3D Viewport -->
-    <div ref="viewerContainer" class="absolute inset-0 w-full h-full bg-slate-900"></div>
+    <!-- 3D Viewport (transparent in AR so camera passthrough shows) -->
+    <div ref="viewerContainer" class="absolute inset-0 w-full h-full"
+      :class="isInXR ? 'bg-transparent' : 'bg-slate-900'"></div>
 
     <!-- Hidden file input -->
     <input id="ar-file-input" type="file" accept=".ifc,.frag" class="hidden" @change="loadIfcFile" />
