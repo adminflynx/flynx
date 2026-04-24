@@ -11,6 +11,9 @@ import ARToast from '../components/ar/ARToast.vue';
 import { createARHitTest } from '../helpers/ARHitTest.js';
 import { createARAnchors } from '../helpers/ARAnchors.js';
 import { createARGestures } from '../helpers/ARGestures.js';
+import { createARLighting } from '../helpers/ARLighting.js';
+import { createARPlanes } from '../helpers/ARPlanes.js';
+import { createAROcclusion } from '../helpers/AROcclusion.js';
 
 // ── Reactive state ──
 const viewerContainer = ref(null);
@@ -51,8 +54,15 @@ let arButtonEl = null;
 let hitTest = null;
 let anchors = null;
 let gestures = null;
+let lighting = null;
+let planes = null;
+let occlusion = null;
 let currentARSession = null;
 const clipPlanes = [];
+
+// Reactive UI toggles
+const planesVisible = ref(true);
+const occlusionEnabled = ref(true);
 
 // ── Toast helper ──
 const showToast = (msg, type = 'info') => {
@@ -80,8 +90,10 @@ const fabActions = computed(() => [
   { id: 'load', icon: 'upload', label: 'Cargar IFC' },
   { id: 'reset', icon: 'restore', label: 'Reset', disabled: !placed.value },
   { id: 'visibility', icon: 'eye-outline', label: 'Visibilidad', disabled: loadedModels.value.length === 0 },
-  { id: 'classes', icon: 'shape-outline', label: 'Clases IFC', disabled: ifcClasses.value.length === 0 },
+  { id: 'classes', icon: 'shape-outline', label: 'Clases', disabled: ifcClasses.value.length === 0 },
   { id: 'clipping', icon: 'crop', label: 'Crop', disabled: loadedModels.value.length === 0, active: clipEnabled.value },
+  { id: 'planes', icon: 'square-outline', label: 'Mostrar planos', disabled: !isInXR.value, active: planesVisible.value },
+  { id: 'occlusion', icon: 'eye-off-outline', label: 'Oclusion real', disabled: !isInXR.value, active: occlusionEnabled.value },
   { id: 'options', icon: 'tune', label: 'Opciones', disabled: loadedModels.value.length === 0 },
 ]);
 
@@ -244,6 +256,16 @@ const onFabAction = (id) => {
       if (!clipEnabled.value && loadedModels.value.length) setupClipping();
       toggleClipping();
       break;
+    case 'planes':
+      planesVisible.value = !planesVisible.value;
+      planes?.setVisible(planesVisible.value);
+      showToast(planesVisible.value ? 'Planos visibles' : 'Planos ocultos', 'info');
+      break;
+    case 'occlusion':
+      occlusionEnabled.value = !occlusionEnabled.value;
+      occlusion?.setEnabled(occlusionEnabled.value);
+      showToast(occlusionEnabled.value ? 'Oclusion activa' : 'Oclusion desactivada', 'info');
+      break;
     case 'options': sheetView.value = 'scale'; sheetOpen.value = true; break;
   }
 };
@@ -284,8 +306,18 @@ const startARSession = async () => {
 
     const session = await navigator.xr.requestSession('immersive-ar', {
       requiredFeatures: ['hit-test'],
-      optionalFeatures: ['dom-overlay', 'anchors'],
+      optionalFeatures: [
+        'dom-overlay',
+        'anchors',
+        'light-estimation',
+        'depth-sensing',
+        'plane-detection',
+      ],
       domOverlay: { root: document.body },
+      depthSensing: {
+        usagePreference: ['gpu-optimized', 'cpu-optimized'],
+        dataFormatPreference: ['luminance-alpha'],
+      },
     });
 
     session.addEventListener('end', () => {
@@ -388,11 +420,13 @@ onMounted(async () => {
   camera.position.set(5, 1, 5);
   camera.lookAt(0, 0, 0);
 
-  // Lights
-  scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-  scene.add(new THREE.HemisphereLight(0xffffff, 0xaaaaaa, 0.8));
+  // Default lights — these will be dimmed when XREstimatedLight takes over
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+  const hemisphereLight = new THREE.HemisphereLight(0xffffff, 0xaaaaaa, 0.8);
   const dirLight = new THREE.DirectionalLight(0xffffff, 1);
   dirLight.position.set(0, 10, 0);
+  scene.add(ambientLight);
+  scene.add(hemisphereLight);
   scene.add(dirLight);
 
   // OBC components — only what we need (no SimpleRenderer / SimpleCamera / SimpleScene)
@@ -441,6 +475,18 @@ onMounted(async () => {
   // AR helpers
   hitTest = createARHitTest({ renderer, scene });
   anchors = createARAnchors({ renderer });
+  lighting = createARLighting({
+    renderer,
+    scene,
+    defaultLights: [ambientLight, hemisphereLight, dirLight],
+  });
+  planes = createARPlanes({ renderer, scene });
+  occlusion = createAROcclusion({ renderer, scene });
+
+  // Patch newly loaded models so they support occlusion shader
+  fragments.list.onItemSet.add(({ value: model }) => {
+    occlusion?.patchSceneMaterials(model.object);
+  });
 
   const bgContainer = document.getElementById('bgContainer');
   let prevBodyBg = '';
@@ -480,6 +526,9 @@ onMounted(async () => {
     if (frame) {
       hitTest?.update(frame);
       anchors?.update(frame);
+      if (planesVisible.value) planes?.update(frame);
+      if (occlusionEnabled.value) occlusion?.update(frame, camera);
+      else occlusion?.setEnabled(false);
     }
     fragments?.core.update();
     renderer.render(scene, camera);
@@ -496,6 +545,8 @@ onBeforeUnmount(() => {
   if (gestures) gestures.dispose();
   if (hitTest) hitTest.dispose();
   if (anchors) anchors.clear();
+  if (lighting) lighting.dispose();
+  if (planes) planes.dispose();
   if (renderer) {
     renderer.setAnimationLoop(null);
     renderer.dispose();
